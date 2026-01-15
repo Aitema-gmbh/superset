@@ -25,6 +25,56 @@ import 'react-js-cron/dist/styles.css';
 export const GlobalStyles = () => (
   <Global
     styles={theme => css`
+      /* WCAG Focus Styles - Visible focus indicators for all interactive elements */
+      *:focus-visible {
+        outline: 2px solid ${theme.colors.primary.base};
+        outline-offset: 2px;
+      }
+
+      /* Remove default focus outline and use focus-visible */
+      *:focus:not(:focus-visible) {
+        outline: none;
+      }
+
+      /* Screen reader only utility class */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      /* Skip link styles - visible on focus */
+      .a11y-skip-link {
+        position: absolute;
+        top: -100px;
+        left: 0;
+        background: ${theme.colors.primary.dark1};
+        color: ${theme.colors.grayscale.light5};
+        padding: ${theme.gridUnit * 3}px ${theme.gridUnit * 4}px;
+        z-index: 10000;
+        text-decoration: none;
+        font-weight: ${theme.typography.weights.bold};
+        transition: top 0.2s ease-in-out;
+
+        &:focus,
+        &:focus-visible {
+          top: 0;
+          outline: 3px solid ${theme.colors.primary.light1};
+          outline-offset: 2px;
+        }
+      }
+
+      /* Main content landmark */
+      #main-content {
+        min-height: calc(100vh - 60px);
+      }
+
       h1,
       h2,
       h3,

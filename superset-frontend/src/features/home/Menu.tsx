@@ -247,9 +247,17 @@ export function Menu({
     isFrontendRoute,
   }: MenuObjectProps) => {
     if (url && isFrontendRoute) {
+      // Check if this route is currently active for aria-current
+      const isActive = location.pathname.startsWith(url);
       return (
         <DropdownMenu.Item key={label} role="presentation">
-          <NavLink role="button" to={url} activeClassName="is-active">
+          {/* WCAG 1.3.3 & 1.4.1: aria-current for active navigation */}
+          <NavLink
+            role="button"
+            to={url}
+            activeClassName="is-active"
+            aria-current={isActive ? 'page' : undefined}
+          >
             {label}
           </NavLink>
         </DropdownMenu.Item>
@@ -273,13 +281,16 @@ export function Menu({
             return <DropdownMenu.Divider key={`$${index1}`} />;
           }
           if (typeof child !== 'string') {
+            const childIsActive = location.pathname === child.url;
             return (
               <DropdownMenu.Item key={`${child.label}`}>
                 {child.isFrontendRoute ? (
+                  /* WCAG 1.3.3 & 1.4.1: aria-current for active navigation */
                   <NavLink
                     to={child.url || ''}
                     exact
                     activeClassName="is-active"
+                    aria-current={childIsActive ? 'page' : undefined}
                   >
                     {child.label}
                   </NavLink>

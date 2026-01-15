@@ -40,6 +40,7 @@ import { logEvent } from 'src/logger/actions';
 import { store } from 'src/views/store';
 import { RootContextProviders } from './RootContextProviders';
 import { ScrollToTop } from './ScrollToTop';
+import { SkipLink, StatusAnnouncerProvider } from 'src/components/Accessibility';
 
 setupApp();
 setupPlugins();
@@ -73,23 +74,28 @@ const App = () => (
     <ScrollToTop />
     <LocationPathnameLogger />
     <RootContextProviders>
-      <GlobalStyles />
-      <Menu
-        data={bootstrapData.common.menu_data}
-        isFrontendRoute={isFrontendRoute}
-      />
-      <Switch>
-        {routes.map(({ path, Component, props = {}, Fallback = Loading }) => (
-          <Route path={path} key={path}>
-            <Suspense fallback={<Fallback />}>
-              <ErrorBoundary>
-                <Component user={bootstrapData.user} {...props} />
-              </ErrorBoundary>
-            </Suspense>
-          </Route>
-        ))}
-      </Switch>
-      <ToastContainer />
+      <SkipLink targetId="main-content" />
+      <StatusAnnouncerProvider>
+        <GlobalStyles />
+        <Menu
+          data={bootstrapData.common.menu_data}
+          isFrontendRoute={isFrontendRoute}
+        />
+        <main id="main-content" role="main">
+          <Switch>
+            {routes.map(({ path, Component, props = {}, Fallback = Loading }) => (
+              <Route path={path} key={path}>
+                <Suspense fallback={<Fallback />}>
+                  <ErrorBoundary>
+                    <Component user={bootstrapData.user} {...props} />
+                  </ErrorBoundary>
+                </Suspense>
+              </Route>
+            ))}
+          </Switch>
+        </main>
+        <ToastContainer />
+      </StatusAnnouncerProvider>
     </RootContextProviders>
   </Router>
 );

@@ -26,6 +26,7 @@ import {
   SupersetTheme,
 } from '@superset-ui/core';
 import Button from 'src/components/Button';
+import { Tooltip } from 'src/components/Tooltip';
 import { OPEN_FILTER_BAR_WIDTH } from 'src/dashboard/constants';
 import { rgba } from 'emotion-rgba';
 import { FilterBarOrientation } from 'src/dashboard/types';
@@ -131,16 +132,23 @@ const ActionButtons = ({
       ]}
       data-test="filterbar-action-buttons"
     >
-      <Button
-        disabled={isApplyDisabled}
-        buttonStyle="primary"
-        htmlType="submit"
-        className="filter-apply-button"
-        onClick={onApply}
-        {...getFilterBarTestId('apply-button')}
+      <Tooltip
+        title={isApplyDisabled ? t('Select filter values to apply') : undefined}
+        placement="top"
       >
-        {isVertical ? t('Apply filters') : t('Apply')}
-      </Button>
+        <span>
+          <Button
+            disabled={isApplyDisabled}
+            buttonStyle="primary"
+            htmlType="submit"
+            className="filter-apply-button"
+            onClick={onApply}
+            {...getFilterBarTestId('apply-button')}
+          >
+            {isVertical ? t('Apply filters') : t('Apply')}
+          </Button>
+        </span>
+      </Tooltip>
       <Button
         disabled={!isClearAllEnabled}
         buttonStyle="link"

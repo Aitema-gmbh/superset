@@ -74,6 +74,7 @@ const ChartHeaderStyles = styled.div`
     align-items: flex-start;
     min-height: 0;
 
+    /* WCAG 1.3.1: Chart title as semantic heading */
     & > .header-title {
       overflow: hidden;
       text-overflow: ellipsis;
@@ -85,6 +86,14 @@ const ChartHeaderStyles = styled.div`
 
       & > span.ant-tooltip-open {
         display: inline;
+      }
+
+      /* Style the h2 to match the original design */
+      & h2 {
+        font-size: inherit;
+        font-weight: inherit;
+        margin: 0;
+        line-height: inherit;
       }
     }
 
@@ -198,20 +207,23 @@ const SliceHeader: FC<SliceHeaderProps> = ({
   return (
     <ChartHeaderStyles data-test="slice-header" ref={innerRef}>
       <div className="header-title" ref={headerRef}>
-        <Tooltip title={headerTooltip}>
-          <EditableTitle
-            title={
-              sliceName ||
-              (editMode
-                ? '---' // this makes an empty title clickable
-                : '')
-            }
-            canEdit={editMode}
-            onSaveTitle={updateSliceName}
-            showTooltip={false}
-            url={canExplore ? exploreUrl : undefined}
-          />
-        </Tooltip>
+        {/* WCAG 1.3.1: Chart title as semantic heading for screen readers */}
+        <h2>
+          <Tooltip title={headerTooltip}>
+            <EditableTitle
+              title={
+                sliceName ||
+                (editMode
+                  ? '---' // this makes an empty title clickable
+                  : '')
+              }
+              canEdit={editMode}
+              onSaveTitle={updateSliceName}
+              showTooltip={false}
+              url={canExplore ? exploreUrl : undefined}
+            />
+          </Tooltip>
+        </h2>
         {!!Object.values(annotationQuery).length && (
           <Tooltip
             id="annotations-loading-tooltip"

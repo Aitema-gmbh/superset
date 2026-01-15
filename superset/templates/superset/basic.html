@@ -13,7 +13,7 @@ governing permissions and limitations under the License. #}
 {% import 'appbuilder/general/lib.html' as lib %} {% from
 'superset/partials/asset_bundle.html' import css_bundle, js_bundle with context
 %} {% set favicons = appbuilder.app.config['FAVICONS'] %}
-<html>
+<html lang="en">
   <head>
     <title>
       {% block title %} {% if title %} {{ title }} {% elif appbuilder and
