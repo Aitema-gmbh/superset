@@ -104,14 +104,16 @@ export const ErrorAlert: React.FC<ErrorAlertProps> = ({
     </div>
   );
   const renderAlert = (closable: boolean) => (
-    <Alert
-      message={errorType}
-      description={renderDescription()}
-      type={type}
-      showIcon={showIcon}
-      closable={closable}
-      className={className}
-    />
+    <div role="alert">
+      <Alert
+        message={errorType}
+        description={renderDescription()}
+        type={type}
+        showIcon={showIcon}
+        closable={closable}
+        className={className}
+      />
+    </div>
   );
 
   if (compact) {

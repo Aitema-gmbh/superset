@@ -631,7 +631,7 @@ const ResultSet = ({
     const errors = [...(query.extra?.errors || []), ...(query.errors || [])];
 
     return (
-      <ResultlessStyles>
+      <ResultlessStyles role="alert" aria-live="assertive">
         {errors.map((error, index) => (
           <ErrorMessageWithStackTrace
             key={index}

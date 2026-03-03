@@ -35,6 +35,18 @@ import { addDangerToast } from 'src/components/MessageToasts/actions';
 import { useDispatch } from 'react-redux';
 import getBootstrapData from 'src/utils/getBootstrapData';
 
+const SrOnly = styled.span`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+`;
+
 type OAuthProvider = {
   name: string;
   icon: string;
@@ -81,6 +93,7 @@ const StyledLabel = styled(Typography.Text)`
 export default function Login() {
   const [form] = Form.useForm<LoginForm>();
   const [loading, setLoading] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
   const dispatch = useDispatch();
 
   const bootstrapData = getBootstrapData();
@@ -118,7 +131,9 @@ export default function Login() {
 
     if (loginAttempted === 'true') {
       sessionStorage.removeItem('login_attempted');
-      dispatch(addDangerToast(t('Invalid username or password')));
+      const errorMsg = t('Invalid username or password');
+      setLoginError(errorMsg);
+      dispatch(addDangerToast(errorMsg));
       // Clear password field for security
       form.setFieldsValue({ password: '' });
     }
@@ -210,6 +225,11 @@ export default function Login() {
               form={form}
               onFinish={onFinish}
             >
+              {loginError && (
+                <div role="alert" id="login-error-message">
+                  <SrOnly>{loginError}</SrOnly>
+                </div>
+              )}
               <Form.Item<LoginForm>
                 label={<StyledLabel>{t('Username:')}</StyledLabel>}
                 name="username"
@@ -221,6 +241,8 @@ export default function Login() {
                   autoFocus
                   prefix={<Icons.UserOutlined iconSize="l" />}
                   data-test="username-input"
+                  aria-invalid={!!loginError}
+                  aria-describedby={loginError ? 'login-error-message' : undefined}
                 />
               </Form.Item>
               <Form.Item<LoginForm>
@@ -233,6 +255,8 @@ export default function Login() {
                 <Input.Password
                   prefix={<Icons.KeyOutlined iconSize="l" />}
                   data-test="password-input"
+                  aria-invalid={!!loginError}
+                  aria-describedby={loginError ? 'login-error-message' : undefined}
                 />
               </Form.Item>
               <Form.Item label={null}>

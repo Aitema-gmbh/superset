@@ -648,6 +648,7 @@ const Header = () => {
                       onClick={
                         undoLength > 0 ? boundActionCreators.onUndo : undefined
                       }
+                      aria-label={t('Undo')}
                     >
                       <Icons.Undo
                         css={[
@@ -655,6 +656,7 @@ const Header = () => {
                           emphasizeUndo && undoRedoEmphasized,
                           undoLength < 1 && undoRedoDisabled,
                         ]}
+                        aria-hidden="true"
                         data-test="undo-action"
                         iconSize="xl"
                       />
@@ -670,6 +672,7 @@ const Header = () => {
                       onClick={
                         redoLength > 0 ? boundActionCreators.onRedo : undefined
                       }
+                      aria-label={t('Redo')}
                     >
                       <Icons.Redo
                         css={[
@@ -677,6 +680,7 @@ const Header = () => {
                           emphasizeRedo && undoRedoEmphasized,
                           redoLength < 1 && undoRedoDisabled,
                         ]}
+                        aria-hidden="true"
                         data-test="redo-action"
                         iconSize="xl"
                       />
@@ -702,7 +706,7 @@ const Header = () => {
                   data-test="header-save-button"
                   aria-label={t('Save')}
                 >
-                  <Icons.SaveOutlined iconSize="m" />
+                  <Icons.SaveOutlined iconSize="m" aria-hidden="true" />
                   {t('Save')}
                 </Button>
               </div>
@@ -722,6 +726,7 @@ const Header = () => {
                 className="action-button"
                 css={editButtonStyle}
                 aria-label={t('Edit dashboard')}
+                aria-pressed={editMode}
               >
                 {t('Edit dashboard')}
               </Button>

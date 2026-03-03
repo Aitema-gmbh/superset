@@ -147,6 +147,11 @@ export const Header: React.FC<Params> = ({
             title: t(
               'To enable multiple column sorting, hold down the ⇧ Shift key while clicking the column header.',
             ),
+            'aria-sort': currentSort === 'asc'
+              ? 'ascending'
+              : currentSort === 'desc'
+                ? 'descending'
+                : 'none',
           })}
         >
           <div className="ag-header-cell-text">{displayName}</div>

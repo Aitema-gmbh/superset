@@ -98,6 +98,35 @@ test('disable menu when enableFilterButton is false', () => {
   expect(queryByTestId('mock-dropdown')).not.toBeInTheDocument();
 });
 
+test('WCAG 1.3.3: renders aria-sort attribute on sortable header', () => {
+  const { getByText } = render(<Header {...mockedProps} />);
+  const headerCell = getByText(mockedProps.displayName).closest('[role="button"]');
+  expect(headerCell).toHaveAttribute('aria-sort');
+});
+
+test('WCAG 1.3.3: aria-sort updates to ascending after first click', () => {
+  const sortProps = {
+    ...mockedProps,
+    column: {
+      ...mockedProps.column,
+      getSort: () => null,
+    } as any as Column,
+  };
+  const { getByText } = render(<Header {...sortProps} />);
+  const headerCell = getByText(mockedProps.displayName).closest('[role="button"]');
+  expect(headerCell).toHaveAttribute('aria-sort', 'none');
+  fireEvent.click(getByText(mockedProps.displayName));
+  expect(headerCell).toHaveAttribute('aria-sort', 'ascending');
+});
+
+test('WCAG 1.3.3: no aria-sort when sorting is disabled', () => {
+  const { getByText } = render(
+    <Header {...mockedProps} enableSorting={false} />,
+  );
+  const headerCell = getByText(mockedProps.displayName).closest('[tabindex]');
+  expect(headerCell).not.toHaveAttribute('aria-sort');
+});
+
 test('hide display name for PIVOT_COL_ID', () => {
   const { queryByText } = render(
     <Header

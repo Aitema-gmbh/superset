@@ -17,10 +17,22 @@
  * under the License.
  */
 import { t } from '@apache-superset/core';
-import { SupersetTheme, useTheme, css } from '@apache-superset/core/ui';
+import { SupersetTheme, useTheme, css, styled } from '@apache-superset/core/ui';
 import { Tooltip } from '@superset-ui/core/components';
 import { Icons } from '@superset-ui/core/components/Icons';
 import { AlertState } from '../types';
+
+const SrOnly = styled.span`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+`;
 
 function getStatusColor(
   status: string,
@@ -110,6 +122,7 @@ export default function AlertStatusIcon({
         }
       >
         <Icon
+          aria-hidden="true"
           iconSize="m"
           iconColor={getStatusColor(
             lastStateConfig.status,
@@ -117,6 +130,7 @@ export default function AlertStatusIcon({
             theme,
           )}
         />
+        <SrOnly>{lastStateConfig.label}</SrOnly>
       </span>
     </Tooltip>
   );

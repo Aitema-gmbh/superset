@@ -71,6 +71,19 @@ test('ErrorAlert toggles description details visibility when show more/less is c
   expect(screen.queryByText(descriptionDetails)).not.toBeInTheDocument();
 });
 
+test('ErrorAlert wraps alert content in role="alert" for screen readers (WCAG 3.3.1)', () => {
+  const { container } = render(
+    <ErrorAlert
+      errorType="Error"
+      message="Something went wrong"
+      type="error"
+    />,
+  );
+
+  const alertRegion = container.querySelector('[role="alert"]');
+  expect(alertRegion).toBeInTheDocument();
+});
+
 test('ErrorAlert renders compact mode with a tooltip and modal', () => {
   render(
     <ErrorAlert

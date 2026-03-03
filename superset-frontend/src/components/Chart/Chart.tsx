@@ -383,6 +383,11 @@ class Chart extends PureComponent<ChartProps, {}> {
           data-test="chart-container"
           height={height}
           width={width}
+          role="img"
+          aria-label={
+            this.props.formData?.slice_name ||
+            t('Chart visualization')
+          }
         >
           {isLoading
             ? this.renderSpinner(databaseName)

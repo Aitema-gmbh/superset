@@ -29,6 +29,7 @@ import { css } from '@apache-superset/core/ui';
 import { Layout, Loading } from '@superset-ui/core/components';
 import { setupAGGridModules } from '@superset-ui/core/components/ThemedAgGridReact';
 import { ErrorBoundary } from 'src/components';
+import { SkipLink, StatusAnnouncerProvider } from 'src/components/Accessibility';
 import Menu from 'src/features/home/Menu';
 import getBootstrapData, { applicationRoot } from 'src/utils/getBootstrapData';
 import ToastContainer from 'src/components/MessageToasts/ToastContainer';
@@ -76,36 +77,41 @@ const App = () => (
     <ScrollToTop />
     <LocationPathnameLogger />
     <RootContextProviders>
-      <ExtensionsStartup />
-      <Menu
-        data={bootstrapData.common.menu_data}
-        isFrontendRoute={isFrontendRoute}
-      />
-      <Switch>
-        {routes.map(({ path, Component, props = {}, Fallback = Loading }) => (
-          <Route path={path} key={path}>
-            <Suspense fallback={<Fallback />}>
-              <Layout>
-                <Layout.Content
-                  css={css`
-                    display: flex;
-                    flex-direction: column;
-                  `}
-                >
-                  <ErrorBoundary
+      <StatusAnnouncerProvider>
+        <SkipLink />
+        <ExtensionsStartup />
+        <Menu
+          data={bootstrapData.common.menu_data}
+          isFrontendRoute={isFrontendRoute}
+        />
+        <Switch>
+          {routes.map(({ path, Component, props = {}, Fallback = Loading }) => (
+            <Route path={path} key={path}>
+              <Suspense fallback={<Fallback />}>
+                <Layout>
+                  <Layout.Content
+                    id="main-content"
+                    role="main"
                     css={css`
-                      margin: 16px;
+                      display: flex;
+                      flex-direction: column;
                     `}
                   >
-                    <Component user={bootstrapData.user} {...props} />
-                  </ErrorBoundary>
-                </Layout.Content>
-              </Layout>
-            </Suspense>
-          </Route>
-        ))}
-      </Switch>
-      <ToastContainer />
+                    <ErrorBoundary
+                      css={css`
+                        margin: 16px;
+                      `}
+                    >
+                      <Component user={bootstrapData.user} {...props} />
+                    </ErrorBoundary>
+                  </Layout.Content>
+                </Layout>
+              </Suspense>
+            </Route>
+          ))}
+        </Switch>
+        <ToastContainer />
+      </StatusAnnouncerProvider>
     </RootContextProviders>
   </Router>
 );

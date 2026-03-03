@@ -88,4 +88,57 @@ describe('LabeledErrorBoundInput', () => {
 
     expect(await screen.findByTestId('icon-eye')).toBeVisible();
   });
+
+  it('WCAG 3.3.1: sets aria-invalid when errorMessage is present', () => {
+    render(
+      <LabeledErrorBoundInput
+        {...defaultProps}
+        name="Username"
+        visibilityToggle={false}
+        errorMessage="Field is required"
+      />,
+    );
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+  });
+
+  it('WCAG 3.3.1: sets aria-describedby linking to error message', () => {
+    render(
+      <LabeledErrorBoundInput
+        {...defaultProps}
+        name="Username"
+        visibilityToggle={false}
+        errorMessage="Field is required"
+      />,
+    );
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-describedby', '1-error');
+  });
+
+  it('WCAG 3.3.1: renders error message with role="alert"', () => {
+    const { container } = render(
+      <LabeledErrorBoundInput
+        {...defaultProps}
+        name="Username"
+        visibilityToggle={false}
+        errorMessage="Field is required"
+      />,
+    );
+    const alertEl = container.querySelector('[role="alert"]');
+    expect(alertEl).toBeInTheDocument();
+    expect(alertEl).toHaveTextContent('Field is required');
+  });
+
+  it('WCAG 3.3.1: does not set aria-invalid when no error', () => {
+    render(
+      <LabeledErrorBoundInput
+        {...defaultProps}
+        name="Username"
+        visibilityToggle={false}
+        errorMessage=""
+      />,
+    );
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-invalid', 'false');
+  });
 });

@@ -242,7 +242,7 @@ export function Menu({
       return {
         key: label,
         label: (
-          <NavLink role="button" to={url} activeClassName="is-active">
+          <NavLink role="button" to={url} activeClassName="is-active" aria-current={activeTabs.includes(label) ? 'page' : undefined}>
             {label}
           </NavLink>
         ),
@@ -264,7 +264,7 @@ export function Menu({
         childItems.push({
           key: `${child.label}`,
           label: child.isFrontendRoute ? (
-            <NavLink to={child.url || ''} exact activeClassName="is-active">
+            <NavLink to={child.url || ''} exact activeClassName="is-active" aria-current={location.pathname === child.url ? 'page' : undefined}>
               {child.label}
             </NavLink>
           ) : (
