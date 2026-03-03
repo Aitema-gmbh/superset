@@ -17,30 +17,26 @@
  * under the License.
  */
 import { render, screen } from 'spec/helpers/testing-library';
+import SkipLink from './SkipLink';
+import { StatusAnnouncerProvider, useAnnouncer } from './StatusAnnouncer';
 
 /**
  * WCAG Sprint 1 Integration Tests
  *
  * Tests for WCAG 2.1 Level A criteria:
- * - 1.1.1 Non-text Content
- * - 1.3.3 Sensory Characteristics
- * - 1.4.1 Use of Color
  * - 2.4.1 Bypass Blocks (SkipLink)
- * - 3.3.1 Error Identification
  * - 4.1.3 Status Messages (StatusAnnouncer)
  */
 
 describe('WCAG 2.4.1 - SkipLink Component', () => {
-  it('renders with correct href targeting main-content', async () => {
-    const { SkipLink } = await import('./SkipLink');
+  it('renders with correct href targeting main-content', () => {
     render(<SkipLink />);
     const link = screen.getByText('Skip to main content');
     expect(link).toHaveAttribute('href', '#main-content');
     expect(link).toHaveClass('a11y-skip-link');
   });
 
-  it('accepts custom targetId', async () => {
-    const { SkipLink } = await import('./SkipLink');
+  it('accepts custom targetId', () => {
     render(<SkipLink targetId="custom-target" />);
     const link = screen.getByText('Skip to main content');
     expect(link).toHaveAttribute('href', '#custom-target');
@@ -48,8 +44,7 @@ describe('WCAG 2.4.1 - SkipLink Component', () => {
 });
 
 describe('WCAG 4.1.3 - StatusAnnouncer Component', () => {
-  it('renders polite and assertive live regions', async () => {
-    const { StatusAnnouncerProvider } = await import('./StatusAnnouncer');
+  it('renders polite and assertive live regions', () => {
     render(
       <StatusAnnouncerProvider>
         <div>Test content</div>
@@ -69,10 +64,7 @@ describe('WCAG 4.1.3 - StatusAnnouncer Component', () => {
 });
 
 describe('WCAG Component Exports', () => {
-  it('exports SkipLink and StatusAnnouncerProvider from index', async () => {
-    const { SkipLink, StatusAnnouncerProvider, useAnnouncer } = await import(
-      './index'
-    );
+  it('exports SkipLink and StatusAnnouncerProvider', () => {
     expect(SkipLink).toBeDefined();
     expect(StatusAnnouncerProvider).toBeDefined();
     expect(useAnnouncer).toBeDefined();
