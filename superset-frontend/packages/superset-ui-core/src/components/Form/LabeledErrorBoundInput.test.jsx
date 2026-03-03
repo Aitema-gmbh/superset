@@ -112,7 +112,7 @@ describe('LabeledErrorBoundInput', () => {
       />,
     );
     const input = screen.getByRole('textbox');
-    expect(input).toHaveAttribute('aria-describedby', '1-error');
+    expect(input).toHaveAttribute('aria-describedby', 'error-1');
   });
 
   it('WCAG 3.3.1: renders error message with role="alert"', () => {

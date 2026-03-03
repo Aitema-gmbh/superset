@@ -226,7 +226,7 @@ export default function Login() {
               onFinish={onFinish}
             >
               {loginError && (
-                <div role="alert" id="login-error-message">
+                <div role="alert" id="error-login">
                   <SrOnly>{loginError}</SrOnly>
                 </div>
               )}
@@ -242,7 +242,7 @@ export default function Login() {
                   prefix={<Icons.UserOutlined iconSize="l" />}
                   data-test="username-input"
                   aria-invalid={!!loginError}
-                  aria-describedby={loginError ? 'login-error-message' : undefined}
+                  aria-describedby={loginError ? 'error-login' : undefined}
                 />
               </Form.Item>
               <Form.Item<LoginForm>
@@ -256,7 +256,7 @@ export default function Login() {
                   prefix={<Icons.KeyOutlined iconSize="l" />}
                   data-test="password-input"
                   aria-invalid={!!loginError}
-                  aria-describedby={loginError ? 'login-error-message' : undefined}
+                  aria-describedby={loginError ? 'error-login' : undefined}
                 />
               </Form.Item>
               <Form.Item label={null}>

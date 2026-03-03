@@ -65,7 +65,7 @@ export const LabeledErrorBoundInput = ({
   ...props
 }: LabeledErrorBoundInputProps) => {
   const hasError = !!errorMessage;
-  const errorId = hasError ? `${id}-error` : undefined;
+  const errorId = hasError ? `error-${id}` : undefined;
   return (
     <StyledFormGroup className={className}>
       <Flex align="center">
