@@ -127,6 +127,10 @@ def main(event_type: str, sha: str, repo: str) -> None:
     elif event_type == "workflow_dispatch":
         print("Workflow dispatched, assuming all changed")
 
+    elif event_type == "schedule":
+        print("Scheduled run, assuming all changed")
+        files = None
+
     else:
         raise ValueError("Unsupported event type")
 
