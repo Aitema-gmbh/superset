@@ -111,7 +111,7 @@ def main(event_type: str, sha: str, repo: str) -> None:
     """Main function to check for file changes based on event context."""
     print("SHA:", sha)
     print("EVENT_TYPE", event_type)
-    files = []
+    files: list[str] | None = []
     if event_type == "pull_request":
         pr_number = os.getenv("GITHUB_REF", "").split("/")[-2]
         if is_int(pr_number):
